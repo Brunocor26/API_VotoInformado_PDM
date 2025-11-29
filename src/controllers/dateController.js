@@ -40,6 +40,10 @@ const voteDebate = async (req, res) => {
             return res.status(404).json({ message: 'Debate not found' });
         }
 
+        if (!dateEvent.votes) {
+            dateEvent.votes = [];
+        }
+
         // Check if user already voted
         const alreadyVoted = dateEvent.votes.find(v => v.userId === userId);
         if (alreadyVoted) {
