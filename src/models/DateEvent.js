@@ -21,7 +21,11 @@ const dateEventSchema = mongoose.Schema({
     title: {
         type: String,
         required: true
-    }
+    },
+    votes: [{
+        userId: String,
+        candidateId: String
+    }]
 }, {
     timestamps: true
 });

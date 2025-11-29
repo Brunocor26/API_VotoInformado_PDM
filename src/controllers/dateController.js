@@ -24,9 +24,35 @@ const createDate = async (req, res) => {
     }
 };
 
-module.exports = {
-    getDates,
-    createDate
+    createDate,
+    voteDebate
+};
+
+// @desc    Vote in a debate
+// @route   POST /api/dates/:id/vote
+// @access  Private
+const voteDebate = async (req, res) => {
+    try {
+        const { userId, candidateId } = req.body;
+        const dateEvent = await DateEvent.findById(req.params.id);
+
+        if (!dateEvent) {
+            return res.status(404).json({ message: 'Debate not found' });
+        }
+
+        // Check if user already voted
+        const alreadyVoted = dateEvent.votes.find(v => v.userId === userId);
+        if (alreadyVoted) {
+            return res.status(400).json({ message: 'User already voted' });
+        }
+
+        dateEvent.votes.push({ userId, candidateId });
+        await dateEvent.save();
+
+        res.json(dateEvent);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 };
 
 module.exports = {
