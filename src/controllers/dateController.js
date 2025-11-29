@@ -24,10 +24,6 @@ const createDate = async (req, res) => {
     }
 };
 
-    createDate,
-    voteDebate
-};
-
 // @desc    Vote in a debate
 // @route   POST /api/dates/:id/vote
 // @access  Private
@@ -61,5 +57,6 @@ const voteDebate = async (req, res) => {
 
 module.exports = {
     getDates,
-    createDate
+    createDate,
+    voteDebate
 };
