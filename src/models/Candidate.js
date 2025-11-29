@@ -9,6 +9,10 @@ const candidateSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    id: {
+        type: String,
+        default: ''
+    },
     photoUrl: {
         type: String,
         default: ''
