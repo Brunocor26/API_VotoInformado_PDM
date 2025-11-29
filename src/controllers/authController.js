@@ -31,12 +31,12 @@ const registerUser = async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        // Create user
+        // Create user (store relative photoUrl)
         const user = await User.create({
             name,
             email,
             password: hashedPassword,
-            photoUrl: req.file ? `${req.protocol}://${req.get('host')}/uploads/profiles/${req.file.filename}` : ''
+            photoUrl: req.file ? `/uploads/profiles/${req.file.filename}` : ''
         });
 
         if (user) {

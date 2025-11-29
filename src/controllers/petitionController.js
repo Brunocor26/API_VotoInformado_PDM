@@ -74,8 +74,8 @@ const uploadPetitionImage = async (req, res) => {
         return res.status(400).json({ message: 'No file uploaded' });
     }
 
-    // Construct public URL for the uploaded file
-    const imageUrl = `${req.protocol}://${req.get('host')}/uploads/petitions/${req.file.filename}`;
+    // Construct relative URL for the uploaded file
+    const imageUrl = `/uploads/petitions/${req.file.filename}`;
 
     res.json({ imageUrl });
 };
