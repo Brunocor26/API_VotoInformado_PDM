@@ -22,12 +22,14 @@ const createComentario = async (req, res) => {
         // Assuming req.user is populated
         const autorId = req.user ? req.user._id : req.body.autorId;
         const autorNome = req.user ? req.user.name : req.body.autorNome;
+        const autorPhotoUrl = req.user ? req.user.photoUrl : req.body.autorPhotoUrl;
 
         const comentario = await Comentario.create({
             texto,
             peticaoId,
             autorId,
-            autorNome
+            autorNome,
+            autorPhotoUrl
         });
 
         res.status(201).json(comentario);
