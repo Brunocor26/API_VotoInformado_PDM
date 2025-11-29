@@ -20,4 +20,5 @@ const sondagemSchema = mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('Sondagem', sondagemSchema);
+// Explicit collection name 'sondagens' to match existing DB documents
+module.exports = mongoose.model('Sondagem', sondagemSchema, 'sondagens');
