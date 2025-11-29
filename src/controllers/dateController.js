@@ -1,11 +1,11 @@
-const DateModel = require('../models/Date');
+const DateEvent = require('../models/DateEvent');
 
 // @desc    Get all dates/events
 // @route   GET /api/dates
 // @access  Public
 const getDates = async (req, res) => {
     try {
-        const dates = await DateModel.find({});
+        const dates = await DateEvent.find();
         res.json(dates);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -17,21 +17,16 @@ const getDates = async (req, res) => {
 // @access  Private
 const createDate = async (req, res) => {
     try {
-        const { category, date, idCandidato1, idCandidato2, time, title } = req.body;
-
-        const newDate = await DateModel.create({
-            category,
-            date,
-            idCandidato1,
-            idCandidato2,
-            time,
-            title
-        });
-
-        res.status(201).json(newDate);
+        const dateEvent = await DateEvent.create(req.body);
+        res.status(201).json(dateEvent);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
+};
+
+module.exports = {
+    getDates,
+    createDate
 };
 
 module.exports = {

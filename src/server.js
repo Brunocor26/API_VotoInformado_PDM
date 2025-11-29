@@ -9,9 +9,11 @@ const app = express();
 // Connect to Database
 connectDB();
 
+
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // Routes
 app.use('/api/candidates', require('./routes/candidateRoutes'));
@@ -27,6 +29,6 @@ app.get('/', (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server running on port ${PORT} and listening on 0.0.0.0`);
 });

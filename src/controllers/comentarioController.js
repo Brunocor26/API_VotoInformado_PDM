@@ -5,7 +5,7 @@ const Comentario = require('../models/Comentario');
 // @access  Public
 const getComentariosByPeticao = async (req, res) => {
     try {
-        const comentarios = await Comentario.find({ peticaoId: req.params.peticaoId });
+        const comentarios = await Comentario.find({ peticaoId: req.params.peticaoId }).sort({ dataCriacao: -1 });
         res.json(comentarios);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -17,14 +17,17 @@ const getComentariosByPeticao = async (req, res) => {
 // @access  Private
 const createComentario = async (req, res) => {
     try {
-        const { autorId, autorNome, peticaoId, texto } = req.body;
+        const { texto, peticaoId } = req.body;
+
+        // Assuming req.user is populated
+        const autorId = req.user ? req.user._id : req.body.autorId;
+        const autorNome = req.user ? req.user.name : req.body.autorNome;
 
         const comentario = await Comentario.create({
-            autorId,
-            autorNome,
-            peticaoId,
             texto,
-            dataCriacao: Date.now()
+            peticaoId,
+            autorId,
+            autorNome
         });
 
         res.status(201).json(comentario);

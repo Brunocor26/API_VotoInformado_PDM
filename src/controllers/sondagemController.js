@@ -5,7 +5,7 @@ const Sondagem = require('../models/Sondagem');
 // @access  Public
 const getSondagens = async (req, res) => {
     try {
-        const sondagens = await Sondagem.find({});
+        const sondagens = await Sondagem.find();
         res.json(sondagens);
     } catch (error) {
         res.status(500).json({ message: error.message });
