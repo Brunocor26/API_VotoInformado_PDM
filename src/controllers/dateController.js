@@ -55,8 +55,56 @@ const voteDebate = async (req, res) => {
     }
 };
 
+    createDate,
+    voteDebate,
+    seedDebates
+};
+
+// @desc    Seed past debates with random votes
+// @route   POST /api/dates/seed
+// @access  Public (for dev/demo)
+const seedDebates = async (req, res) => {
+    try {
+        const dates = await DateEvent.find();
+        let updatedCount = 0;
+        const now = new Date();
+
+        for (const dateEvent of dates) {
+            // Check if it's a debate (has candidates) and is in the past
+            if (dateEvent.idCandidato1 && dateEvent.idCandidato2) {
+                const eventDateStr = dateEvent.date; // YYYY-MM-DD
+                const eventTimeStr = dateEvent.time || "00:00";
+                const eventDateTime = new Date(`${eventDateStr}T${eventTimeStr}`);
+
+                // If event is in the past and has no votes (or empty votes)
+                if (eventDateTime < now && (!dateEvent.votes || dateEvent.votes.length === 0)) {
+                    const votes = [];
+                    const totalVotes = Math.floor(Math.random() * 50) + 20; // 20 to 70 votes
+
+                    for (let i = 0; i < totalVotes; i++) {
+                        const randomCand = Math.random() > 0.5 ? dateEvent.idCandidato1 : dateEvent.idCandidato2;
+                        votes.push({
+                            userId: `mock_user_${Math.floor(Math.random() * 10000)}`,
+                            candidateId: randomCand
+                        });
+                    }
+
+                    dateEvent.votes = votes;
+                    await dateEvent.save();
+                    updatedCount++;
+                }
+            }
+        }
+
+        res.json({ message: `Seeded ${updatedCount} debates with random votes.` });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 module.exports = {
     getDates,
     createDate,
-    voteDebate
+    voteDebate,
+    seedDebates
 };
