@@ -22,6 +22,11 @@ const dateEventSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    location: {
+        latitude: Number,
+        longitude: Number,
+        address: String
+    },
     votes: [{
         userId: String,
         candidateId: String
