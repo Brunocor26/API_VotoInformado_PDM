@@ -1,0 +1,54 @@
+### Create Candidate
+POST http://localhost:3000/api/candidates
+Content-Type: application/json
+
+{
+    "nome": "João Silva",
+    "partido": "Partido do Progresso",
+    "biografiaCurta": "Engenheiro e ativista social com 20 anos de experiência.",
+    "profissao": "Engenheiro Civil",
+    "cargosPrincipais": "Vereador (2018-2022)",
+    "siteOficial": "https://joaosilva.pt",
+    "photoUrl": "https://example.com/joao.jpg"
+}
+
+### Create Date (Event)
+POST http://localhost:3000/api/dates
+Content-Type: application/json
+
+{
+    "title": "Debate Televisivo RTP",
+    "date": "2025-09-15",
+    "time": "21:00",
+    "category": "Debate",
+    "location": {
+        "latitude": 38.7598,
+        "longitude": -9.1179,
+        "address": "Estúdios RTP, Lisboa"
+    },
+    "description": "Debate entre os principais candidatos às legislativas."
+}
+
+### Create Sondagem (Poll)
+POST http://localhost:3000/api/sondagens
+Content-Type: application/json
+
+{
+    "entidade": "Intercampus",
+    "tam_amostra": 802,
+    "data_fim_recolha": "2025-10-12",
+    "universo": "População portuguesa, com 18 e mais anos de idade, eleitoralmente recenseada.",
+    "margem_erro": 3.5,
+    "nivel_confianca": 0.95,
+    "resultados": {
+        "PS": 28.5,
+        "PSD": 26.1,
+        "CH": 12.3,
+        "IL": 5.4,
+        "BE": 4.8,
+        "CDU": 3.2,
+        "L": 2.1,
+        "PAN": 1.5,
+        "Outros/Branco/Nulo": 16.1
+    }
+}
