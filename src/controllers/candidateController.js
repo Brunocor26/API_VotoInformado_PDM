@@ -33,7 +33,16 @@ const getCandidateById = async (req, res) => {
 // @access  Private/Admin
 const createCandidate = async (req, res) => {
     try {
-        const candidate = await Candidate.create(req.body);
+        let candidateData = req.body;
+        
+        if (req.file) {
+            // If running locally, this URL might need to be full path or relative depending on how app consumes it
+            // For now, storing relative path 'uploads/candidates/filename'
+            // The Android app or frontend should prepend the base URL
+            candidateData.photoUrl = req.file.path;
+        }
+
+        const candidate = await Candidate.create(candidateData);
         res.status(201).json(candidate);
     } catch (error) {
         res.status(400).json({ message: error.message });
