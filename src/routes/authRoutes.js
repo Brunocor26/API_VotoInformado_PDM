@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { registerUser, loginUser, googleLogin, getMe, updateProfile } = require('../controllers/authController');
+const { registerUser, loginUser, getMe, updateProfile } = require('../controllers/authController');
 const { protect } = require('../middleware/authMiddleware');
 const path = require('path');
 const multer = require('multer');
@@ -18,7 +18,7 @@ const upload = multer({ storage: storage });
 
 router.post('/register', upload.single('photo'), registerUser);
 router.post('/login', loginUser);
-router.post('/google', googleLogin);
+
 router.get('/me', protect, getMe);
 router.put('/me', protect, upload.single('photo'), updateProfile);
 

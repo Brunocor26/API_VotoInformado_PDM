@@ -98,13 +98,7 @@ const getMe = async (req, res) => {
     }
 };
 
-// @desc    Google Login (Placeholder)
-// @route   POST /api/auth/google
-// @access  Public
-const googleLogin = async (req, res) => {
-    // TODO: Implement Google Auth with google-auth-library if needed
-    res.status(501).json({ message: 'Google Login not supported in MongoDB version yet' });
-};
+
 
 // @desc    Update user profile
 // @route   PUT /api/auth/me
@@ -142,6 +136,6 @@ module.exports = {
     registerUser,
     loginUser,
     getMe,
-    googleLogin,
+
     updateProfile
 };
