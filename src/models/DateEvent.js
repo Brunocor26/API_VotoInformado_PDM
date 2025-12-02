@@ -15,6 +15,9 @@ const dateEventSchema = mongoose.Schema({
     idCandidato2: {
         type: String
     },
+    idCandidato: {
+        type: String
+    },
     time: {
         type: String
     },
