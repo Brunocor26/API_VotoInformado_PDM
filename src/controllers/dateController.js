@@ -17,6 +17,7 @@ const getDates = async (req, res) => {
 // @access  Private
 const createDate = async (req, res) => {
     try {
+        console.log("Received createDate body:", req.body);
         const dateEvent = await DateEvent.create(req.body);
         res.status(201).json(dateEvent);
     } catch (error) {
