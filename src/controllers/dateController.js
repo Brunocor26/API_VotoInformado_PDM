@@ -55,12 +55,7 @@ const voteDebate = async (req, res) => {
     }
 };
 
-module.exports = {
-    getDates,
-    createDate,
-    voteDebate,
-    seedDebates
-};
+
 
 // @desc    Seed past debates with random votes
 // @route   POST /api/dates/seed
