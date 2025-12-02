@@ -55,6 +55,8 @@ const voteDebate = async (req, res) => {
     }
 };
 
+module.exports = {
+    getDates,
     createDate,
     voteDebate,
     seedDebates
