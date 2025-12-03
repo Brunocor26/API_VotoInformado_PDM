@@ -1,25 +1,26 @@
 const mongoose = require('mongoose');
 const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
-const Petition = require('../src/models/Petition');
+const User = require('../src/models/User');
 
-async function deleteAll() {
+async function checkUsers() {
     try {
         console.log('Connecting to MongoDB...');
         await mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/votoinformado');
         console.log('Connected.');
 
-        console.log('Deleting all petitions...');
-        const result = await Petition.deleteMany({});
+        const users = await User.find({}, 'name email role');
+        console.log('Users found:', users.length);
+        users.forEach(user => {
+            console.log(`- ${user.name} (${user.email}): ${user.role}`);
+        });
 
-        console.log(`Successfully deleted ${result.deletedCount} petitions.`);
     } catch (error) {
-        console.error('Error deleting petitions:', error);
-        process.exit(1);
+        console.error('Error checking users:', error);
     } finally {
         await mongoose.connection.close();
         process.exit(0);
     }
 }
 
-deleteAll();
+checkUsers();

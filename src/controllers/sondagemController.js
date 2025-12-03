@@ -1,8 +1,8 @@
 const Sondagem = require('../models/Sondagem');
 
-// @desc    Get all sondagens
-// @route   GET /api/sondagens
-// @access  Public
+/**
+ * Retrieves all polls (sondagens).
+ */
 const getSondagens = async (req, res) => {
     try {
         const sondagens = await Sondagem.find();
@@ -12,9 +12,9 @@ const getSondagens = async (req, res) => {
     }
 };
 
-// @desc    Create a sondagem
-// @route   POST /api/sondagens
-// @access  Private/Admin
+/**
+ * Creates a new poll.
+ */
 const createSondagem = async (req, res) => {
     try {
         const sondagem = await Sondagem.create(req.body);

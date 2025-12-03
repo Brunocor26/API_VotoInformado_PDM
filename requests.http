@@ -1,3 +1,6 @@
+### API Request Tests
+# Use this file with the REST Client extension to test API endpoints.
+
 ### Create Candidate
 POST http://localhost:3000/api/candidates
 Content-Type: application/json

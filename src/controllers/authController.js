@@ -2,16 +2,17 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 
-// Generate JWT
+// Helper to sign JWT tokens for authenticated sessions
 const generateToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET || 'secret', {
         expiresIn: '30d',
     });
 };
 
-// @desc    Register new user
-// @route   POST /api/auth/register
-// @access  Public
+/**
+ * Registers a new user.
+ * Expects name, email, and password in the request body.
+ */
 const registerUser = async (req, res) => {
     const { name, email, password } = req.body;
 
@@ -20,18 +21,18 @@ const registerUser = async (req, res) => {
     }
 
     try {
-        // Check if user exists
         const userExists = await User.findOne({ email });
 
         if (userExists) {
             return res.status(400).json({ message: 'User already exists' });
         }
 
-        // Hash password
+        // Hash password before saving
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        // Create user (store relative photoUrl)
+        // Create the user. If a file was uploaded, store its path.
+
         const user = await User.create({
             name,
             email,
@@ -45,6 +46,7 @@ const registerUser = async (req, res) => {
                 name: user.name,
                 email: user.email,
                 photoUrl: user.photoUrl,
+                role: user.role,
                 token: generateToken(user._id),
             });
         } else {
@@ -55,14 +57,13 @@ const registerUser = async (req, res) => {
     }
 };
 
-// @desc    Authenticate a user
-// @route   POST /api/auth/login
-// @access  Public
+/**
+ * Authenticates a user and returns a JWT token.
+ */
 const loginUser = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        // Check for user email
         const user = await User.findOne({ email });
 
         if (user && (await bcrypt.compare(password, user.password))) {
@@ -71,6 +72,7 @@ const loginUser = async (req, res) => {
                 name: user.name,
                 email: user.email,
                 photoUrl: user.photoUrl,
+                role: user.role,
                 token: generateToken(user._id),
             });
         } else {
@@ -81,9 +83,9 @@ const loginUser = async (req, res) => {
     }
 };
 
-// @desc    Get user data
-// @route   GET /api/auth/me
-// @access  Private
+/**
+ * Returns the currently authenticated user's data.
+ */
 const getMe = async (req, res) => {
     try {
         const user = await User.findById(req.user.id);
@@ -100,9 +102,9 @@ const getMe = async (req, res) => {
 
 
 
-// @desc    Update user profile
-// @route   PUT /api/auth/me
-// @access  Private
+/**
+ * Updates the user's profile (name and/or photo).
+ */
 const updateProfile = async (req, res) => {
     try {
         const user = await User.findById(req.user.id);
@@ -122,6 +124,7 @@ const updateProfile = async (req, res) => {
                 name: updatedUser.name,
                 email: updatedUser.email,
                 photoUrl: updatedUser.photoUrl,
+                role: updatedUser.role,
                 token: generateToken(updatedUser._id),
             });
         } else {

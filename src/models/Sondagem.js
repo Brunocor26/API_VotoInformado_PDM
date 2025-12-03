@@ -43,7 +43,7 @@ const sondagemSchema = mongoose.Schema({
         of: Number,
         required: false
     },
-    titulo: { // Keeping title as it might be useful, or should I remove? The image doesn't show it explicitly but usually polls have titles. I'll keep it optional or remove if strict.
+    titulo: {
         type: String,
         required: false
     },

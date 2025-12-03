@@ -1,8 +1,8 @@
 const Petition = require('../models/Petition');
 
-// @desc    Get all petitions
-// @route   GET /api/petitions
-// @access  Public
+/**
+ * Retrieves all petitions, sorted by creation date (newest first).
+ */
 const getPetitions = async (req, res) => {
     try {
         const petitions = await Petition.find().sort({ dataCriacao: -1 });
@@ -12,16 +12,15 @@ const getPetitions = async (req, res) => {
     }
 };
 
-// @desc    Create a petition
-// @route   POST /api/petitions
-// @access  Private
+/**
+ * Creates a new petition.
+ */
 const createPetition = async (req, res) => {
     try {
         const { titulo, descricao, imageUrl } = req.body;
 
-        // Assuming req.user is populated by auth middleware
-        // If auth is loose, we might need to rely on body params, but better to use req.user
-        // For now, let's assume req.user exists if protected, or fallback to body
+        // Use authenticated user if available, otherwise fallback to body params (e.g. for testing)
+
 
         const criadorId = req.user ? req.user._id : req.body.criadorId;
         const criadorNome = req.user ? req.user.name : req.body.criadorNome;
@@ -40,9 +39,10 @@ const createPetition = async (req, res) => {
     }
 };
 
-// @desc    Sign a petition
-// @route   POST /api/petitions/:id/sign
-// @access  Private
+/**
+ * Signs a petition.
+ * Ensures a user can only sign once.
+ */
 const signPetition = async (req, res) => {
     try {
         const petition = await Petition.findById(req.params.id);
@@ -66,9 +66,10 @@ const signPetition = async (req, res) => {
     }
 };
 
-// @desc    Upload petition image
-// @route   POST /api/petitions/upload
-// @access  Private
+/**
+ * Handles image upload for a petition.
+ * Returns the relative URL of the uploaded image.
+ */
 const uploadPetitionImage = async (req, res) => {
     if (!req.file) {
         return res.status(400).json({ message: 'No file uploaded' });
@@ -80,9 +81,9 @@ const uploadPetitionImage = async (req, res) => {
     res.json({ imageUrl });
 };
 
-// @desc    Delete a petition
-// @route   DELETE /api/petitions/:id
-// @access  Private
+/**
+ * Deletes a petition by ID.
+ */
 const deletePetition = async (req, res) => {
     try {
         const petition = await Petition.findById(req.params.id);

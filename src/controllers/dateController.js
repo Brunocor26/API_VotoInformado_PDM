@@ -1,8 +1,8 @@
 const DateEvent = require('../models/DateEvent');
 
-// @desc    Get all dates/events
-// @route   GET /api/dates
-// @access  Public
+/**
+ * Retrieves all scheduled events (dates).
+ */
 const getDates = async (req, res) => {
     try {
         const dates = await DateEvent.find();
@@ -12,9 +12,9 @@ const getDates = async (req, res) => {
     }
 };
 
-// @desc    Create a date/event
-// @route   POST /api/dates
-// @access  Private
+/**
+ * Creates a new event.
+ */
 const createDate = async (req, res) => {
     try {
         console.log("Received createDate body:", req.body);
@@ -25,9 +25,10 @@ const createDate = async (req, res) => {
     }
 };
 
-// @desc    Vote in a debate
-// @route   POST /api/dates/:id/vote
-// @access  Private
+/**
+ * Casts a vote for a candidate in a specific debate event.
+ * Prevents multiple votes from the same user.
+ */
 const voteDebate = async (req, res) => {
     try {
         const { userId, candidateId } = req.body;
@@ -58,9 +59,10 @@ const voteDebate = async (req, res) => {
 
 
 
-// @desc    Seed past debates with random votes
-// @route   POST /api/dates/seed
-// @access  Public (for dev/demo)
+/**
+ * Seeds past debates with random votes for demonstration purposes.
+ * This is useful for populating the app with data when no real votes exist.
+ */
 const seedDebates = async (req, res) => {
     try {
         const dates = await DateEvent.find();

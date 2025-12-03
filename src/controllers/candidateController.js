@@ -1,8 +1,8 @@
 const Candidate = require('../models/Candidate');
 
-// @desc    Get all candidates
-// @route   GET /api/candidates
-// @access  Public
+/**
+ * Retrieves all candidates from the database.
+ */
 const getCandidates = async (req, res) => {
     try {
         const candidates = await Candidate.find();
@@ -12,9 +12,9 @@ const getCandidates = async (req, res) => {
     }
 };
 
-// @desc    Get candidate by ID
-// @route   GET /api/candidates/:id
-// @access  Public
+/**
+ * Retrieves a single candidate by their ID.
+ */
 const getCandidateById = async (req, res) => {
     try {
         const candidate = await Candidate.findById(req.params.id);
@@ -28,17 +28,16 @@ const getCandidateById = async (req, res) => {
     }
 };
 
-// @desc    Create a candidate
-// @route   POST /api/candidates
-// @access  Private/Admin
+/**
+ * Creates a new candidate.
+ * Handles optional photo upload.
+ */
 const createCandidate = async (req, res) => {
     try {
         let candidateData = req.body;
         
         if (req.file) {
-            // If running locally, this URL might need to be full path or relative depending on how app consumes it
-            // For now, storing relative path 'uploads/candidates/filename'
-            // The Android app or frontend should prepend the base URL
+            // Store the relative path to the uploaded file
             candidateData.photoUrl = req.file.path;
         }
 

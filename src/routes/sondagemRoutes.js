@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const { getSondagens, createSondagem } = require('../controllers/sondagemController');
 
-router.route('/').get(getSondagens).post(createSondagem);
+const { protect, admin } = require('../middleware/authMiddleware');
+
+router.route('/').get(getSondagens).post(protect, admin, createSondagem);
 
 module.exports = router;

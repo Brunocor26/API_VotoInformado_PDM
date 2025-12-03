@@ -6,16 +6,15 @@ const connectDB = require('./config/db');
 
 const app = express();
 
-// Connect to Database
+// Initialize database connection
 connectDB();
 
-
-// Middleware
+// Middleware setup
 app.use(cors());
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
-// Routes
+// API Routes
 app.use('/api/candidates', require('./routes/candidateRoutes'));
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/sondagens', require('./routes/sondagemRoutes'));
@@ -23,6 +22,7 @@ app.use('/api/petitions', require('./routes/petitionRoutes'));
 app.use('/api/comentarios', require('./routes/comentarioRoutes'));
 app.use('/api/dates', require('./routes/dateRoutes'));
 
+// Simple health check endpoint
 app.get('/', (req, res) => {
     res.send('API is running...');
 });
@@ -30,5 +30,5 @@ app.get('/', (req, res) => {
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server running on port ${PORT} and listening on 0.0.0.0`);
+    console.log(`Server running on port ${PORT}`);
 });

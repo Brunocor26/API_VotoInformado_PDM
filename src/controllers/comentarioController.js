@@ -1,8 +1,8 @@
 const Comentario = require('../models/Comentario');
 
-// @desc    Get comments for a petition
-// @route   GET /api/comentarios/:peticaoId
-// @access  Public
+/**
+ * Retrieves comments for a specific petition.
+ */
 const getComentariosByPeticao = async (req, res) => {
     try {
         const comentarios = await Comentario.find({ peticaoId: req.params.peticaoId }).sort({ dataCriacao: -1 });
@@ -12,14 +12,15 @@ const getComentariosByPeticao = async (req, res) => {
     }
 };
 
-// @desc    Create a comment
-// @route   POST /api/comentarios
-// @access  Private
+/**
+ * Creates a new comment on a petition.
+ */
 const createComentario = async (req, res) => {
     try {
         const { texto, peticaoId } = req.body;
 
-        // Assuming req.user is populated
+        // Use authenticated user if available, otherwise fallback to body params
+
         const autorId = req.user ? req.user._id : req.body.autorId;
         const autorNome = req.user ? req.user.name : req.body.autorNome;
         const autorPhotoUrl = req.user ? req.user.photoUrl : req.body.autorPhotoUrl;

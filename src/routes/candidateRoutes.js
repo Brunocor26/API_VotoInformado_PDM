@@ -15,7 +15,9 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-router.route('/').get(getCandidates).post(upload.single('photo'), createCandidate);
+const { protect, admin } = require('../middleware/authMiddleware');
+
+router.route('/').get(getCandidates).post(protect, admin, upload.single('photo'), createCandidate);
 router.route('/:id').get(getCandidateById);
 
 module.exports = router;
