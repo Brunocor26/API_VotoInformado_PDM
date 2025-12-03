@@ -3,7 +3,7 @@ require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
-const rateLimit = require('express-rate-limit');
+
 
 
 const connectDB = require('./config/db');
@@ -21,11 +21,7 @@ app.use(express.json());
 
 
 // Rate limiting
-const limiter = rateLimit({
-    windowMs: 10 * 60 * 1000, // 10 minutes
-    max: 100 // limit each IP to 100 requests per windowMs
-});
-app.use(limiter);
+
 
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
