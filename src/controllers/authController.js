@@ -20,6 +20,10 @@ const registerUser = async (req, res) => {
         return res.status(400).json({ message: 'Please add all fields' });
     }
 
+    if (password.length < 6) {
+        return res.status(400).json({ message: 'Password must be at least 6 characters' });
+    }
+
     try {
         const userExists = await User.findOne({ email });
 
